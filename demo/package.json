@@ -7,11 +7,11 @@
     "watch": "babel -w server/ -d dist/",
     "build": "babel server/ -d dist/ | webpack --mode production",
     "build_debug": "babel server/ -d dist/ | webpack --devtool source-map",
-    "copy": "copyfiles -u 1 ./src/**/*.{css,html} ./dist/html/",
+    "copy": "copyfiles -u 1 ./src/**/*.{css,html} ./dist/html/ | copyfiles -u 2 ./src/assets/*.csv ./dist/assets/",
     "serve": "npm run build && npm run copy && nodemon --watch dist",
     "serve_debug": "babel server/ -d dist/ | webpack --devtool source-map && npm run copy && nodemon --watch dist"
   },
-  "author": "Maciej Sikora hello@maciejsikora.com",
+  "author": "Valerio Arnaboldi valearna@caltech.edu",
   "license": "MIT",
   "dependencies": {
     "copyfiles": "^2.4.1",
