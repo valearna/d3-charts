@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import * as d3ScaleChromatic from 'd3-scale-chromatic';
 
 class D3Heatmap {
     constructor(divId = "#heatmap", title = "", subtitle = "", top = 80, right = 25,
@@ -58,26 +59,29 @@ class D3Heatmap {
         var x = d3.scaleBand()
             .range([0, this.width])
             .domain(myGroups)
-            .padding(0.05);
         this.svg.append("g")
-            .style("font-size", 15)
+            .style("font-size", 8)
             .attr("transform", "translate(0," + this.height + ")")
             .call(d3.axisBottom(x).tickSize(0))
+            .selectAll("text")
+                .style("text-anchor", "end")
+                .attr("dx", "-.8em")
+                .attr("dy", ".15em")
+                .attr("transform", "rotate(-90)")
             .select(".domain").remove()
 
         // Build Y scales and axis:
         var y = d3.scaleBand()
             .range([this.height, 0])
             .domain(myVars)
-            .padding(0.05);
         this.svg.append("g")
-            .style("font-size", 15)
+            .style("font-size", 8)
             .call(d3.axisLeft(y).tickSize(0))
             .select(".domain").remove()
 
         // Build color scale
         var myColor = d3.scaleSequential()
-            .interpolator(d3.interpolateInferno)
+            .interpolator(d3ScaleChromatic.interpolateViridis)
             .domain([1, 100])
 
         // create a tooltip
@@ -111,7 +115,7 @@ class D3Heatmap {
                 .style("opacity", 0)
             d3.select(this)
                 .style("stroke", "none")
-                .style("opacity", 0.8)
+                .style("opacity", 1)
         }
 
         // add the squares
@@ -132,9 +136,7 @@ class D3Heatmap {
             .style("fill", function (d) {
                 return myColor(d.value)
             })
-            .style("stroke-width", 4)
             .style("stroke", "none")
-            .style("opacity", 0.8)
             .on("mouseover", mouseover)
             .on("mousemove", mousemove)
             .on("mouseleave", mouseleave)
