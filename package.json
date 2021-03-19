@@ -1,6 +1,6 @@
 {
-  "name": "@valearna/d3-heatmap",
-  "version": "1.0.0",
+  "name": "@wormbase/d3-heatmap",
+  "version": "1.0.2",
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
