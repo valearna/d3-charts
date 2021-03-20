@@ -18,6 +18,7 @@ class D3Heatmap {
     }
 
     initialize() {
+        d3.select(this.divId).html("");
         // append the svg object to the body of the page
         this.svg = d3.select(this.divId)
             .append("svg")
@@ -67,7 +68,7 @@ class D3Heatmap {
                 .style("text-anchor", "end")
                 .attr("dx", "-.8em")
                 .attr("dy", ".15em")
-                .attr("transform", "rotate(-90)")
+                .attr("transform", "rotate(-60)")
             .select(".domain").remove()
 
         // Build Y scales and axis:
