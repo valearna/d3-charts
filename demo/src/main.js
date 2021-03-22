@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import D3Heatmap from "@valearna/d3-heatmap";
 
 $(document).ready(() => {
-    let filterHeatmap = new D3Heatmap("#heatmap", "Heatmap Demo", "", 80, 25, 150, 180, 1280, 1280);
+    let filterHeatmap = new D3Heatmap("#heatmap", 80, 25, 150, 180, 1280, 1280);
 
     d3.csv("http://localhost:3000/assets/cengen_mean_celltype_expression.csv", function (data) {
         let threeColsData = [];

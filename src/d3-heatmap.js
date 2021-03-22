@@ -2,18 +2,17 @@ import * as d3 from 'd3';
 import * as d3ScaleChromatic from 'd3-scale-chromatic';
 
 class D3Heatmap {
-    constructor(divId = "#heatmap", title = "", subtitle = "", top = 80, right = 25,
+    constructor(divId = "#heatmap", top = 80, right = 25,
                 bottom = 30, left = 40, width = 500, height = 500) {
         this.divId = divId;
         if (! this.divId.startsWith("#")) {
             this.divId = "#" + this.divId;
         }
-        this.title = title;
-        this.subtitle = subtitle;
         this.margin = {top: top, right: right, bottom: bottom, left: left}
         this.width = width - this.margin.left - this.margin.right;
         this.height = height - this.margin.top - this.margin.bottom;
         this.svg = undefined;
+        this.opacity = 0;
         this.initialize();
     }
 
@@ -27,24 +26,6 @@ class D3Heatmap {
             .append("g")
             .attr("transform",
                 "translate(" + this.margin.left + "," + this.margin.top + ")");
-
-        // Add title to graph
-        this.svg.append("text")
-            .attr("x", 0)
-            .attr("y", -50)
-            .attr("text-anchor", "left")
-            .style("font-size", "22px")
-            .text(this.title);
-
-        // Add subtitle to graph
-        this.svg.append("text")
-            .attr("x", 0)
-            .attr("y", -20)
-            .attr("text-anchor", "left")
-            .style("font-size", "14px")
-            .style("fill", "grey")
-            .style("max-width", 400)
-            .text(this.subtitle);
     }
 
     draw(data) {
@@ -86,7 +67,7 @@ class D3Heatmap {
             .domain([1, 100])
 
         // create a tooltip
-        var tooltip = d3.select("#heatmap")
+        var tooltip = d3.select(this.divId)
             .append("div")
             .style("opacity", 0)
             .attr("class", "tooltip")
@@ -98,25 +79,29 @@ class D3Heatmap {
 
         // Three function that change the tooltip when user hover / move / leave a cell
         var mouseover = function (d) {
-            tooltip
-                .style("opacity", 1)
             d3.select(this)
                 .style("stroke", "black")
                 .style("opacity", 1)
         }
-        var mousemove = function (d) {
-            tooltip
-                .html("The exact value of<br>this cell is: " + d.value)
-                .style("position", "absolute")
-                .style("left", (d3.mouse(this)[0] + 30) + "px")
-                .style("top", (d3.mouse(this)[1]) + "px")
-        }
         var mouseleave = function (d) {
-            tooltip
-                .style("opacity", 0)
             d3.select(this)
                 .style("stroke", "none")
-                .style("opacity", 1)
+                .style("opacity", 1);
+        }
+        var mouseclick = function (d) {
+            this.opacity = !this.opacity ? 1 : 0;
+            if (this.opacity === 1) {
+                tooltip
+                    .html(d.tooltip_html)
+                    .style("position", "absolute")
+                    .style("left", (d3.mouse(this)[0] + 50) + "px")
+                    .style("top", (d3.mouse(this)[1] + 50) + "px")
+                    .style("opacity", 1)
+            } else {
+                tooltip
+                    .html("")
+                    .style("opacity", 0)
+            }
         }
 
         // add the squares
@@ -139,8 +124,8 @@ class D3Heatmap {
             })
             .style("stroke", "none")
             .on("mouseover", mouseover)
-            .on("mousemove", mousemove)
             .on("mouseleave", mouseleave)
+            .on("click", mouseclick)
     }
 }
 
