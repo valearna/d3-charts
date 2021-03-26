@@ -16,7 +16,7 @@
   "dependencies": {
     "copyfiles": "^2.4.1",
     "express": "^4.14.0",
-    "@valearna/d3-heatmap": "file:../",
+    "@wormbase/d3-charts": "file:../",
     "jquery": "^3.5.1",
     "d3": "4.13.0"
   },

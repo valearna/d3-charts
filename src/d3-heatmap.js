@@ -3,7 +3,8 @@ import * as d3ScaleChromatic from 'd3-scale-chromatic';
 
 class D3Heatmap {
     constructor(divId = "#heatmap", top = 80, right = 25,
-                bottom = 30, left = 40, width = 500, height = 500) {
+                bottom = 30, left = 40, width = 500, height = 500, minValue = 1,
+                maxValue = 10) {
         this.divId = divId;
         if (! this.divId.startsWith("#")) {
             this.divId = "#" + this.divId;
@@ -13,6 +14,8 @@ class D3Heatmap {
         this.height = height - this.margin.top - this.margin.bottom;
         this.svg = undefined;
         this.opacity = 0;
+        this.minValue = minValue;
+        this.maxValue = maxValue;
         this.initialize();
     }
 
@@ -41,6 +44,7 @@ class D3Heatmap {
         var x = d3.scaleBand()
             .range([0, this.width])
             .domain(myGroups)
+            .padding(0)
         this.svg.append("g")
             .style("font-size", 8)
             .attr("transform", "translate(0," + this.height + ")")
@@ -56,6 +60,7 @@ class D3Heatmap {
         var y = d3.scaleBand()
             .range([this.height, 0])
             .domain(myVars)
+            .padding(0)
         this.svg.append("g")
             .style("font-size", 8)
             .call(d3.axisLeft(y).tickSize(0))
@@ -64,7 +69,7 @@ class D3Heatmap {
         // Build color scale
         var myColor = d3.scaleSequential()
             .interpolator(d3ScaleChromatic.interpolateViridis)
-            .domain([1, 100])
+            .domain([this.minValue, this.maxValue])
 
         // create a tooltip
         var tooltip = d3.select(this.divId)
@@ -81,11 +86,13 @@ class D3Heatmap {
         var mouseover = function (d) {
             d3.select(this)
                 .style("stroke", "black")
+                .style("stroke-width", 2)
                 .style("opacity", 1)
         }
         var mouseleave = function (d) {
             d3.select(this)
                 .style("stroke", "none")
+                .style("stroke-width", 0)
                 .style("opacity", 1);
         }
         var mouseclick = function (d) {
@@ -123,6 +130,7 @@ class D3Heatmap {
                 return myColor(d.value)
             })
             .style("stroke", "none")
+            .style("stroke-width", 0)
             .on("mouseover", mouseover)
             .on("mouseleave", mouseleave)
             .on("click", mouseclick)

@@ -1,6 +1,6 @@
 {
-  "name": "@wormbase/d3-heatmap",
-  "version": "1.0.4",
+  "name": "@wormbase/d3-charts",
+  "version": "1.0.5",
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
