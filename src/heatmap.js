@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 import * as d3ScaleChromatic from 'd3-scale-chromatic';
 
-class D3Heatmap {
+class Heatmap {
     constructor(divId = "#heatmap", top = 80, right = 25,
                 bottom = 30, left = 40, width = 500, height = 500, minValue = 1,
                 maxValue = 10) {
@@ -137,4 +137,4 @@ class D3Heatmap {
     }
 }
 
-export default D3Heatmap;
+export default Heatmap;

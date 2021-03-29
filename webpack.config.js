@@ -3,8 +3,9 @@ var path = require('path');
 module.exports = {
     mode: 'production',
     entry: {
-        'heatmap': './src/d3-heatmap.js',
-        'ridgeline': './src/d3-ridgeline.js'
+        'heatmap': './src/heatmap.js',
+        'ridgeline': './src/ridgeline.js',
+        'index': './src/index.js'
     },
     output: {
         path: path.resolve('dist'),

@@ -17,7 +17,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "directories": {
-    "dist": "dist"
-  }
+  "files": ["dist"]
 }

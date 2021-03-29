@@ -15,7 +15,7 @@ function kernelEpanechnikov(k, scale) {
     };
 }
 
-class D3Ridgeline {
+class Ridgeline {
     constructor(divId = "#ridgeline", top = 60, right = 30, bottom = 20,
                 left = 110, width, height, xdomain = [-10, 100], ydomain = [0, 1], k = 7,) {
         this.divId = divId;
@@ -96,4 +96,4 @@ class D3Ridgeline {
     }
 }
 
-export default D3Ridgeline;
+export default Ridgeline;
