@@ -38,7 +38,7 @@ class Heatmap {
         }).keys()
         var myVars = d3.map(data, function (d) {
             return d.variable;
-        }).keys()
+        }).keys().reverse();
 
         // Build X scales and axis:
         var x = d3.scaleBand()
