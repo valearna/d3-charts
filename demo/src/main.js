@@ -1,28 +1,22 @@
 import * as $ from 'jquery';
 import * as d3 from 'd3';
-import D3Heatmap from "@wormbase/d3-charts/dist/heatmap";
-import D3Ridgeline from "@wormbase/d3-charts/dist/ridgeline";
+import {Ridgeline, Dotplot} from "@wormbase/d3-charts";
 
 $(document).ready(() => {
-    let filterHeatmap = new D3Heatmap("#heatmap", 80, 25, 150, 180, 1280, 1280, 1, 10);
+    let dotplot = new Dotplot("#dotplot", 80, 25, 150, 180, 1200, 800, 0, 0.1, 0.01, 30, true);
 
     d3.csv("http://localhost:3000/assets/cengen_mean_celltype_expression.csv", function (data) {
         let threeColsData = [];
         let cellNames = Object.keys(data[0]);
-        cellNames = cellNames.filter(item => item !== "gene_id")
+        cellNames = cellNames.filter(item => item !== "gene_id").slice(0, 10)
         data.forEach(row => {
             cellNames.forEach(name => {
-                threeColsData.push({group: row["gene_id"], variable: name, value: -Math.log10(row[name]),
+                threeColsData.push({group: row["gene_id"], variable: name, value: row[name],
                     tooltip_html: "Value: " + -Math.log10(row[name])});
             })
         });
-        threeColsData = threeColsData.slice(0, cellNames.length * 100)
-        filterHeatmap.draw(threeColsData);
+        threeColsData = threeColsData.slice(0, cellNames.length * 10)
+        dotplot.draw(threeColsData);
     })
-
-    let ridgeLine = new D3Ridgeline();
-    d3.csv("https://raw.githubusercontent.com/zonination/perceptions/master/probly.csv", function (data) {
-        ridgeLine.draw(data);
-    });
 
 })

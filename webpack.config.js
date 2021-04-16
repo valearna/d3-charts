@@ -5,7 +5,8 @@ module.exports = {
     entry: {
         'heatmap': './src/heatmap.js',
         'ridgeline': './src/ridgeline.js',
-        'index': './src/index.js'
+        'dotplot': ['./src/dotplot.js'],
+        'index': './src/index.js',
     },
     output: {
         path: path.resolve('dist'),
