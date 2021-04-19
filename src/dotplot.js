@@ -141,7 +141,7 @@ class Dotplot {
             })
             .attr("r", function(d) {
                 if (d.value > threshold) {
-                    return Math.min(d.value * multiplier * Math.min(x.bandwidth() / 4, y.bandwidth()) / 4, Math.min(x.bandwidth() / 4, y.bandwidth()))
+                    return Math.min(d.value * multiplier * Math.min(x.bandwidth() / 2, y.bandwidth() / 2), Math.min(x.bandwidth() / 2, y.bandwidth() / 2))
                 } else {
                     return 0
                 }
