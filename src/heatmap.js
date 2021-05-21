@@ -1,10 +1,11 @@
 import * as d3 from 'd3';
 import * as d3ScaleChromatic from 'd3-scale-chromatic';
+import { wrap } from './lib';
 
 class Heatmap {
     constructor(divId = "#heatmap", top = 80, right = 25,
                 bottom = 30, left = 40, width = 500, height = 500, minValue = 1,
-                maxValue = 10) {
+                maxValue = 10, maxLabelLength = 1000) {
         this.divId = divId;
         if (! this.divId.startsWith("#")) {
             this.divId = "#" + this.divId;
@@ -16,6 +17,7 @@ class Heatmap {
         this.opacity = 0;
         this.minValue = minValue;
         this.maxValue = maxValue;
+        this.maxLabelLength = maxLabelLength;
         this.initialize();
     }
 
@@ -64,7 +66,8 @@ class Heatmap {
         this.svg.append("g")
             .style("font-size", 8)
             .call(d3.axisLeft(y).tickSize(0))
-            .select(".domain").remove()
+            .selectAll(".tick text")
+            .call(wrap, this.maxLabelLength);
 
         // Build color scale
         var myColor = d3.scaleSequential()

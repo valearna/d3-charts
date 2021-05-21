@@ -1,10 +1,11 @@
 import * as d3 from 'd3';
 import * as d3ScaleChromatic from 'd3-scale-chromatic';
+import { wrap } from './lib';
 
 class Dotplot {
     constructor(divId = "#dotplot", top = 80, right = 25,
                 bottom = 30, left = 40, width = 500, height = 500, minValue = 1,
-                maxValue = 10, threshold = 0.001, circleSizeMultiplier = 100, colored = true) {
+                maxValue = 10, threshold = 0.001, circleSizeMultiplier = 100, colored = true, maxLabelLength = 1000) {
         this.divId = divId;
         if (! this.divId.startsWith("#")) {
             this.divId = "#" + this.divId;
@@ -19,6 +20,7 @@ class Dotplot {
         this.threshold = threshold;
         this.multiplier = circleSizeMultiplier;
         this.colored = colored;
+        this.maxLabelLength = maxLabelLength;
         this.initialize();
     }
 
@@ -72,6 +74,8 @@ class Dotplot {
         this.svg.append("g")
             .style("font-size", 8)
             .call(d3.axisLeft(y).tickSize(0))
+            .selectAll(".tick text")
+            .call(wrap, this.maxLabelLength);
 
         this.svg.append("g")
             .call(d3.axisLeft(y).tickFormat("").tickSize(-this.width))

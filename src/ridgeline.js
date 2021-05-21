@@ -1,5 +1,6 @@
 import * as d3 from 'd3';
 import * as d3ScaleChromatic from 'd3-scale-chromatic';
+import { wrap } from './lib';
 
 function kernelDensityEstimator(kernel, X) {
     return function(V) {
@@ -17,7 +18,8 @@ function kernelEpanechnikov(k, scale) {
 
 class Ridgeline {
     constructor(divId = "#ridgeline", top = 60, right = 30, bottom = 20,
-                left = 110, width, height, xdomain = [-10, 100], ydomain = [0, 1], k = 7,) {
+                left = 110, width, height, xdomain = [-10, 100], ydomain = [0, 1],
+                k = 7, maxLabelLength = 1000) {
         this.divId = divId;
         if (! this.divId.startsWith("#")) {
             this.divId = "#" + this.divId;
@@ -28,6 +30,7 @@ class Ridgeline {
         this.xdomain = xdomain;
         this.ydomain = ydomain;
         this.k = k;
+        this.maxLabelLength = maxLabelLength;
         d3.select(this.divId).html("");
         this.svg = d3.select(this.divId)
             .append("svg")
@@ -64,7 +67,9 @@ class Ridgeline {
             .range([0, this.height])
             .paddingInner(1)
         svg.append("g")
-            .call(d3.axisLeft(yName));
+            .call(d3.axisLeft(yName))
+            .selectAll(".tick text")
+            .call(wrap, this.maxLabelLength);
 
         // Compute kernel density estimation for each column:
         var kde = kernelDensityEstimator(kernelEpanechnikov(this.k, this.scale), x.ticks(100)) // increase this 40 for more accurate density.
