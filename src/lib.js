@@ -12,13 +12,15 @@ export function wrap(text, width) {
             dy = parseFloat(text.attr("dy")),
             tspan = text.text(null).append("tspan").attr("x", -3).attr("y", y).attr("dy", dy + "em");
         while (word = words.pop()) {
-            line.push(word);
-            tspan.text(line.join(" "));
-            if (line.length > 1 && tspan.node().getComputedTextLength() > width) {
-                line.pop();
+            if (word !== '') {
+                line.push(word);
                 tspan.text(line.join(" "));
-                line = [word];
-                tspan = text.append("tspan").attr("x", -3).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+                if (line.length > 1 && line.map(word => word.length).reduce((a, i) => a + i, 0) > width) {
+                    line.pop();
+                    tspan.text(line.join(" "));
+                    line = [word];
+                    tspan = text.append("tspan").attr("x", -3).attr("y", y).attr("dy", lineHeight + dy + "em").text(word);
+                }
             }
         }
     });

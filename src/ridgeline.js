@@ -67,7 +67,7 @@ class Ridgeline {
             .range([0, this.height])
             .paddingInner(1)
         svg.append("g")
-            .call(d3.axisLeft(yName))
+            .call(d3.axisLeft(yName).tickSize(0))
             .selectAll(".tick text")
             .call(wrap, this.maxLabelLength);
 
