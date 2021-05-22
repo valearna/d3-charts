@@ -49,11 +49,15 @@ class Ridgeline {
         var svg = this.svg;
 
         // Add X axis
-        var x = d3.scaleLinear()
+        var x = d3.scaleLog()
             .domain(this.xdomain)
             .range([ 0, this.width ]);
         svg.append("g")
             .attr("transform", "translate(0," + this.height + ")")
+            .call(d3.axisBottom(x));
+
+        svg.append("g")
+            .attr("transform", "translate(0,-"+ this.margin.top +")")
             .call(d3.axisBottom(x));
 
         // Create a Y scale for densities
@@ -95,7 +99,7 @@ class Ridgeline {
             .attr("stroke-width", 1)
             .attr("d",  d3.line()
                 .curve(d3.curveBasis)
-                .x(function(d) { return x(d[0]); })
+                .x(function(d) { return x(Math.pow(10, -d[0])); })
                 .y(function(d) { return y(d[1]); })
             )
     }
