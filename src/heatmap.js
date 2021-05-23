@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 import * as d3ScaleChromatic from 'd3-scale-chromatic';
-import { wrap } from './lib';
+import { wrap, invertColor } from './lib';
 
 class Heatmap {
     constructor(divId = "#heatmap", top = 80, right = 25,
@@ -88,7 +88,7 @@ class Heatmap {
         // Three function that change the tooltip when user hover / move / leave a cell
         var mouseover = function (d) {
             d3.select(this)
-                .style("stroke", "black")
+                .style("stroke", invertColor(myColor(d.value)))
                 .style("stroke-width", 2)
                 .style("opacity", 1)
         }
