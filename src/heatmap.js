@@ -5,7 +5,7 @@ import { wrap, invertColor } from './lib';
 class Heatmap {
     constructor(divId = "#heatmap", top = 80, right = 25,
                 bottom = 30, left = 40, width = 500, height = 500, minValue = 1,
-                maxValue = 10, maxLabelLength = 1000) {
+                maxValue = 10, maxLabelLength = 1000, labelFontSize = 10) {
         this.divId = divId;
         if (! this.divId.startsWith("#")) {
             this.divId = "#" + this.divId;
@@ -18,6 +18,7 @@ class Heatmap {
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.maxLabelLength = maxLabelLength;
+        this.labelFontSize = labelFontSize
         this.initialize();
     }
 
@@ -48,7 +49,7 @@ class Heatmap {
             .domain(myGroups)
             .padding(0)
         this.svg.append("g")
-            .style("font-size", 8)
+            .style("font-size", this.labelFontSize)
             .attr("transform", "translate(0," + this.height + ")")
             .call(d3.axisBottom(x).tickSize(0))
             .selectAll("text")
@@ -64,7 +65,7 @@ class Heatmap {
             .domain(myVars)
             .padding(0)
         this.svg.append("g")
-            .style("font-size", 8)
+            .style("font-size", this.labelFontSize)
             .call(d3.axisLeft(y).tickSize(0))
             .selectAll(".tick text")
             .call(wrap, this.maxLabelLength);
