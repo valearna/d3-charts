@@ -19,7 +19,7 @@ $(document).ready(() => {
         dotplot.draw(threeColsData);
     });
 
-    //let swarmplot = new Swarmplot("#dotplot", 80, 25, 150, 100, 1200, 800, 30);
-    //swarmplot.draw([{x:-10, y:"lin-2", tooltip_html: "<div>Test</div>"}, {x:2, y:"lin-1", tooltip_html: "<div>Test</div>"}, {x:3, y:"lin-1", tooltip_html: "<div>Test</div>"}, {x:4, y:"lin-2", tooltip_html: "<div>Test</div>"}]);
+    let swarmplot = new Swarmplot("#dotplot", 80, 25, 150, 100, 1200, 800, 30);
+    swarmplot.draw([{x:-10, y:"lin-2", tooltip_html: "<div>Test</div>", selected: true}, {x:2, y:"lin-1", tooltip_html: "<div>Test</div>"}, {x:3, y:"lin-1", tooltip_html: "<div>Test</div>"}, {x:4, y:"lin-2", tooltip_html: "<div>Test</div>"}]);
 
 })

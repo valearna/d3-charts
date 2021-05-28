@@ -56,8 +56,9 @@ class Swarmplot {
             .attr("y1", 0)
             .attr("x2", x(0))  //<<== and here
             .attr("y2", this.height)
-            .style("stroke-width", 2)
-            .style("stroke", "red")
+            .style("stroke-width", 1)
+            .style("stroke", "black")
+            .style("stroke-dasharray", ("3, 3"))
             .style("fill", "none");
 
         // create a tooltip
@@ -74,7 +75,7 @@ class Swarmplot {
         // function that change the tooltip when user hover / move / leave a cell
         var mouseover = function (d) {
             d3.select(this)
-                .style("stroke", "red")
+                .style("stroke", "#02a169")
                 .style("stroke-width", 2)
                 .style("opacity", 1)
             tooltip
@@ -102,7 +103,12 @@ class Swarmplot {
             .attr("cx", function (d) { return x(d.x); } )
             .attr("cy", function (d) { return yName(d.y); } )
             .attr("r", 2)
-            .style("fill", "#000000")
+            .style("fill", function(d) {
+                if (d.selected !== undefined && d.selected) {
+                    return "red";
+                } else {
+                    return "black";
+                }})
             .style("stroke", "none")
             .style("stroke-width", 0)
             .on("mouseover", mouseover)
