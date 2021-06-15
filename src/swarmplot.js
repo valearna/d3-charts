@@ -3,11 +3,12 @@ import { wrap } from './lib';
 
 class Swarmplot {
     constructor(divId = "#swarmplot", top = 60, right = 30, bottom = 20,
-                left = 110, width, height, maxLabelLength) {
+                left = 110, width, height, maxLabelLength, xdomain = [-10, 10]) {
         this.divId = divId;
         if (! this.divId.startsWith("#")) {
             this.divId = "#" + this.divId;
         }
+        this.xdomain = xdomain
         this.margin = {top: top, right: right, bottom: bottom, left: left};
         this.height = height - this.margin.top - this.margin.bottom;
         this.width = width - this.margin.left - this.margin.right;
@@ -35,7 +36,7 @@ class Swarmplot {
 
         // Add X axis
         var x = d3.scaleLinear()
-            .domain([minX, maxX])
+            .domain(this.xdomain)
             .range([ 0, this.width ]);
         svg.append("g")
             .attr("transform", "translate(0," + this.height + ")")
